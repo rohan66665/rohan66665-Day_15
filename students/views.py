@@ -1,33 +1,36 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from .models import Student
-from .forms import StudentForm
 
-# List all students
-def student_list(request):
-    students = Student.objects.all()
-    return render(request, 'students/student_list.html', {'students': students})
+class StudentListView(ListView):
+    model = Student
+    template_name = 'students/student_list.html'
 
-# Add new student
-def student_create(request):
-    form = StudentForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('student_list')
-    return render(request, 'students/student_form.html', {'form': form})
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'students/student_detail.html'
 
-# Edit student
-def student_update(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    form = StudentForm(request.POST or None, instance=student)
-    if form.is_valid():
-        form.save()
-        return redirect('student_list')
-    return render(request, 'students/student_form.html', {'form': form})
+class StudentCreateView(SuccessMessageMixin, CreateView):
+    model = Student
+    template_name = 'students/student_form.html'
+    fields = ['name', 'email', 'age']
+    success_url = reverse_lazy('student_list')
+    success_message = "Student created successfully!"
 
-# Delete student
-def student_delete(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    if request.method == 'POST':
-        student.delete()
-        return redirect('student_list')
-    return render(request, 'students/student_confirm_delete.html', {'student': student})
+class StudentUpdateView(SuccessMessageMixin, UpdateView):
+    model = Student
+    template_name = 'students/student_form.html'
+    fields = ['name', 'email', 'age']
+    success_url = reverse_lazy('student_list')
+    success_message = "Student updated successfully!"
+
+class StudentDeleteView(DeleteView):
+    model = Student
+    template_name = 'students/student_confirm_delete.html'
+    success_url = reverse_lazy('student_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Student deleted successfully!")
+        return super().delete(request, *args, **kwargs)

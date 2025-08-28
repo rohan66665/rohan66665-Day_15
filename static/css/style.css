@@ -1,6 +1,8 @@
 body {
     font-family: Arial, sans-serif;
     padding: 20px;
+    a{margin-right: 10px;}
+    .alert { padding: 5px; margin:5px 0; border: 1px solid #ccc;}
 }
 h1 {
     color: #333;

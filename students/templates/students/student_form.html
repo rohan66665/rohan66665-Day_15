@@ -1,17 +1,12 @@
-{% load static %}
-<html>
-<head>
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<title>Student Form</title>
-</head>
-<body>
-<h1>Student Form</h1>
-<h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</h1>
-<form method="post">{% csrf_token %}
+{% extends 'students/base.html' %}
+
+{% block title %}Add/Update Student{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Update{% else %}Add{% endif %} Student</h2>
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save</button>
 </form>
-<a href="{% url 'student_list' %}">Back to list</a>
-</body>
-</html>
+{% endblock %}
