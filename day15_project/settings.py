@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-$kx*maxm%@z4l9&rc7c*76fzc6j_y%r^gpmo)3d$5pmfhx22@t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['student-manager-app.onrender.com', 'localhost']
+# settings.py
+
+ALLOWED_HOSTS = ["student-manager-app.onrender.com"]
+
 
 
 
@@ -122,6 +125,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
